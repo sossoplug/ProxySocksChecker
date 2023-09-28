@@ -16,11 +16,21 @@ def main():
         # Wipe result files clean
         wipe_files_clean()
 
-        if config["PROXY_CHECK"] == "1":
-            write_to_log(f"[SUCCESS]: Checking Mode = PROXY\n\n", "")
+        if config["HTTP_CHECK"] == "1":
+            write_to_log("[SUCCESS]: Checking Mode = HTTP\n\n", "")
 
-        elif config["SOCKS_CHECK"] == "1":
-            write_to_log(f"[SUCCESS]: Checking Mode = SOCKS\n\n", "")
+        elif config["HTTPS_CHECK"] == "1":
+            write_to_log("[SUCCESS]: Checking Mode = HTTPS\n\n", "")
+
+        elif config["SOCKS4_CHECK"] == "1":
+            write_to_log("[SUCCESS]: Checking Mode = SOCKS4\n\n", "")
+
+        elif config["SOCKS5_CHECK"] == "1":
+            write_to_log("[SUCCESS]: Checking Mode = SOCKS5\n\n", "")
+
+
+        print("CHECKING IS ON GOING........")
+        print("Press Ctrl+C to QUIT")
 
         # Run the checker
         run_checker()

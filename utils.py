@@ -17,16 +17,16 @@ def load_environment_variables():
         load_dotenv()
 
         env_vars                        = {
-            "PROXY_CHECK":              os.getenv("PROXY_CHECK"),
+            "HTTP_CHECK":               os.getenv("HTTP_CHECK"),
+            "HTTPS_CHECK":              os.getenv("HTTPS_CHECK"),
+            "SOCKS4_CHECK":             os.getenv("SOCKS4_CHECK"),
+            "SOCKS5_CHECK":             os.getenv("SOCKS5_CHECK"),
             "WORKING_PROXIES_FILEPATH": os.getenv("WORKING_PROXIES_FILEPATH"),
             "FAILED_PROXIES_FILEPATH":  os.getenv("FAILED_PROXIES_FILEPATH"),
-            "SOCKS_CHECK":              os.getenv("SOCKS_CHECK"),
-            "WORKING_SOCKS_FILEPATH":   os.getenv("WORKING_SOCKS_FILEPATH"),
-            "FAILED_SOCKS_FILEPATH":    os.getenv("FAILED_SOCKS_FILEPATH"),
-            "NUMBERS_OF_BOTS":          os.getenv("NUMBERS_OF_BOTS"),
             "LOG_OUTPUT_FILEPATH":      os.getenv("LOG_OUTPUT_FILEPATH"),
             "PROXY_LIST_FILEPATH":      os.getenv("PROXY_LIST_FILEPATH"),
-            "SOCKS_LIST_FILEPATH":      os.getenv("SOCKS_LIST_FILEPATH")
+            "NUMBERS_OF_BOTS":          os.getenv("NUMBERS_OF_BOTS"),
+
         }
         return env_vars
 
@@ -123,8 +123,6 @@ def wipe_files_clean():
         config                      = load_environment_variables()
         open(config["WORKING_PROXIES_FILEPATH"],    'w').close()
         open(config["FAILED_PROXIES_FILEPATH"],     'w').close()
-        open(config["WORKING_SOCKS_FILEPATH"],      'w').close()
-        open(config["FAILED_SOCKS_FILEPATH"],       'w').close()
         open(config["LOG_OUTPUT_FILEPATH"],         'w').close()
     except Exception as e:
         write_to_log(f"[ERROR]: Failed to wipe files clean. {str(e)}", "ERROR")
