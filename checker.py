@@ -19,15 +19,22 @@ def check_proxy(proxy):
     Returns:
     - bool:                 True if the proxy is valid, False otherwise.
     """
+    response                = None
     try:
         response            = requests.get("http://www.google.com", proxies={"http": proxy, "https": proxy}, timeout=5)
 
         if response.status_code == 200:
             return True
 
+
+
         return False
 
-    except:
+    except Exception as e:
+        if response:
+            write_to_log(f"[ERROR]: Check Failed with status: {response.status_code} for proxy {proxy}", "")
+
+        write_to_log(f"[ERROR]:  {e} for proxy {proxy}", "")
         return False
 
 
@@ -44,15 +51,22 @@ def check_sock(sock):
     Returns:
     - bool:                 True if the sock is valid, False otherwise.
     """
+    response                = None
     try:
         response            = requests.get("http://www.google.com", proxies={"http": f"socks5://{sock}", "https": f"socks5://{sock}"}, timeout=5)
 
         if response.status_code == 200:
             return True
 
+        write_to_log(f"[ERROR]: Check Failed with status: {response.status_code} for sock {sock}" , "")
+
         return False
 
-    except:
+    except Exception as e:
+        if response:
+            write_to_log(f"[ERROR]: Check Failed with status: {response.status_code} for sock {sock}","")
+
+        write_to_log(f"[ERROR]:  {e} for sock {sock}","")
         return False
 
 
@@ -75,12 +89,14 @@ def threaded_check(address, config, results):
         if config["PROXY_CHECK"] == "1":
             if check_proxy(address):
                 results["working"].append(address)
+                write_to_log(f"[SUCCESS]: Check Passed for: {address}", "")
             else:
                 results["failed"].append(address)
 
         elif config["SOCKS_CHECK"] == "1":
             if check_sock(address):
                 results["working"].append(address)
+                write_to_log(f"[SUCCESS]: Check Passed for: {address}", "")
             else:
                 results["failed"].append(address)
 

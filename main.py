@@ -11,10 +11,16 @@ def main():
     """
     try:
         # Load environment variables
-        load_environment_variables()
+        config = load_environment_variables()
 
         # Wipe result files clean
         wipe_files_clean()
+
+        if config["PROXY_CHECK"] == "1":
+            write_to_log(f"[SUCCESS]: Checking Mode = PROXY\n\n", "")
+
+        elif config["SOCKS_CHECK"] == "1":
+            write_to_log(f"[SUCCESS]: Checking Mode = SOCKS\n\n", "")
 
         # Run the checker
         run_checker()
